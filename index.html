@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda App</title>
+    <style>
+        main {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .add-agenda {
+            margin-bottom: 20px;
+        }
+
+        .agenda-input {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .add-button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .agenda-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .agenda-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .agenda-item .remove-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .agenda-item .done-button {
+            background-color: rgb(34, 17, 191);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .stripedThrough {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        .completed {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1>Agenda App</h1>
+        <div class="add-agenda">
+            <input id="agenda-input" class="agenda-input" placeholder="Add a new agenda" />
+            <button class="add-button" onclick="addAgenda()">Add</button>
+        </div>
+        <ul id="agenda-list" class="agenda-list">
+            <!-- Dynamically added agenda items will appear here -->
+        </ul>
+    </main>
+
+    <script>
+        let agenda = [];
+        let newAgenda = '';
+
+        function addAgenda() {
+            const inputElement = document.getElementById('agenda-input');
+            newAgenda = inputElement.value;
+            if (newAgenda) {
+                agenda.push({ text: newAgenda, done: false });
+                inputElement.value = '';
+                renderAgenda();
+            }
+        }
+
+        function removeAgenda(index) {
+            agenda.splice(index, 1);
+            renderAgenda();
+        }
+
+        function doneAgenda(index) {
+            agenda[index].done = true;
+            renderAgenda();
+        }
+
+        function renderAgenda() {
+            const agendaList = document.getElementById('agenda-list');
+            agendaList.innerHTML = '';  // Clear the list before re-rendering
+            agenda.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.classList.add('agenda-item');
+                if (item.done) {
+                    li.classList.add('completed');
+                }
+                li.innerHTML = `
+                    <span class="${item.done ? 'stripedThrough' : ''}">${item.text}</span>
+                    <div>
+                        ${!item.done ? `<button class="done-button" onclick="doneAgenda(${index})">Done</button>` : ''}
+                        <button class="remove-button" onclick="removeAgenda(${index})">Remove</button>
+                    </div>
+                `;
+                agendaList.appendChild(li);
+            });
+        }
+    </script>
+</body>
+
+</html>
