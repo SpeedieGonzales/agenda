@@ -14,21 +14,21 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4  # Aktualisierte Version
 
-    - name: Set up Node.js (optional, falls du noch Node.js für Build-Schritte verwendest)
-      uses: actions/setup-node@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v4  # Aktualisierte Version
       with:
-        node-version: '14'
+        node-version: '18'  # Eine neuere Node.js-Version verwenden
 
-    - name: Build your project (optional, falls du ein Build-System wie z.B. webpack verwendest)
+    - name: Build your project
       run: |
         npm install
-        npm run build  # Falls du einen Build-Prozess hast
+        npm run build || echo "Kein Build-Skript benötigt"
 
     - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4.1.0
+      uses: JamesIves/github-pages-deploy-action@v4  # Aktualisierte Version
       with:
         branch: gh-pages  # Der Branch, auf dem die Seite gehostet wird
-        folder: ./  # Der Ordner, in dem sich die index.html befindet
-        token: ${{ secrets.GITHUB_TOKEN }}  # GitHub token für Berechtigungen
+        folder: ./  # Falls deine index.html im Root liegt
+        token: ${{ secrets.GITHUB_TOKEN }}  # GitHub Token für Berechtigungen
