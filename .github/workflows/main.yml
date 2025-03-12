@@ -3,32 +3,35 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # oder master, je nach deinem Hauptbranch
+      - main  # Passe den Branch an, falls nötig
   pull_request:
     branches:
-      - main  # oder master, je nach deinem Hauptbranch
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
-    - name: Set up Node.js (optional, falls du noch Node.js für Build-Schritte verwendest)
-      uses: actions/setup-node@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
       with:
-        node-version: '14'
+        node-version: '20'
+        cache: 'npm'
 
-    - name: Build your project (optional, falls du ein Build-System wie z.B. webpack verwendest)
-      run: |
-        npm install
-        npm run build  # Falls du einen Build-Prozess hast
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build project
+      run: npm run build  # Stelle sicher, dass dein Build-Ordner korrekt ist
 
     - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4.1.0
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
-        branch: gh-pages  # Der Branch, auf dem die Seite gehostet wird
-        folder: ./  # Der Ordner, in dem sich die index.html befindet
-        token: ${{ secrets.GITHUB_TOKEN }}  # GitHub token für Berechtigungen
+        branch: gh-pages
+        folder: ./
+        clean: true
+        token: ${{ secrets.GITHUB_TOKEN }}
