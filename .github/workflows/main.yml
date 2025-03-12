@@ -27,7 +27,7 @@ jobs:
         npm run build  # Falls du einen Build-Prozess hast
 
     - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
+      uses: JamesIves/github-pages-deploy-action@v4.1.0
       with:
         branch: gh-pages  # Der Branch, auf dem die Seite gehostet wird
         folder: ./  # Der Ordner, in dem sich die index.html befindet
