@@ -31,4 +31,5 @@ jobs:
       with:
         branch: gh-pages  # Der Branch, auf dem die Seite gehostet wird
         folder: ./  # Falls deine index.html im Root liegt
-        token: ${{ secrets.GITHUB_TOKEN }}  # GitHub Token für Berechtigungen
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
